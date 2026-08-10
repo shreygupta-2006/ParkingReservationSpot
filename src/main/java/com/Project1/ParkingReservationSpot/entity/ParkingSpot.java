@@ -13,7 +13,7 @@ public class ParkingSpot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private Integer id;
     @Column(name = "spotName", nullable = false)
     private String spotName;
 

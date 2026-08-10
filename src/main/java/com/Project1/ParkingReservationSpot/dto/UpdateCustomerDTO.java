@@ -1,16 +1,15 @@
 package com.Project1.ParkingReservationSpot.dto;
 
-import lombok.*;
+
+import jakarta.validation.constraints.Email;
+import lombok.Data;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class CustomerDTO {
-    private Integer id;
+public class UpdateCustomerDTO {
+
     private String firstName;
     private String lastName;
+    @Email
     private String email;
     private String phoneNumber;
-
-
 }
