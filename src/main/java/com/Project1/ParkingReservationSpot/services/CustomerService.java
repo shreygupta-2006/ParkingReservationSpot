@@ -6,7 +6,6 @@ import com.Project1.ParkingReservationSpot.dto.UpdateCustomerDTO;
 import jakarta.validation.Valid;
 
 import java.util.List;
-import java.util.Map;
 
 public interface CustomerService {
     List<CustomerDTO> getAllCustomers();

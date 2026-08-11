@@ -18,14 +18,15 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    LocalDate date;
-    LocalTime startTime;
-    LocalTime endTime;
+    private LocalDate date;
+    private LocalTime startTime;
+    private LocalTime endTime;
 
     @ManyToOne
     @JoinColumn(name = "CustomerId")
-    Customer customer;
+    private Customer customer;
 
     @ManyToOne
+    @JoinColumn(name = "ParkingSpotId")
     private ParkingSpot parkingSpot;
 }

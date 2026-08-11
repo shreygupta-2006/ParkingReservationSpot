@@ -14,10 +14,10 @@ public class ParkingSpot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Integer id;
-    @Column(name = "spotName", nullable = false)
+    @Column(name = "spotName", nullable = false,unique = true)
     private String spotName;
 
     @OneToMany(mappedBy = "parkingSpot")
-    private List<Reservation> reservation;
+    private List<Reservation> reservations;
 
 }
