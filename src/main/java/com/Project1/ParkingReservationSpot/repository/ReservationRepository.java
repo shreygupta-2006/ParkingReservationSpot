@@ -12,5 +12,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
     List<Reservation> findByDate(LocalDate date);
 
+    List<Reservation> findByParkingSpotId(Integer spotId);
 
 }
