@@ -1,14 +1,18 @@
 package com.Project1.ParkingReservationSpot.services.serviceImplementation;
 
+import com.Project1.ParkingReservationSpot.dto.AddCustomerDTO;
 import com.Project1.ParkingReservationSpot.dto.AddReservationDTO;
 import com.Project1.ParkingReservationSpot.dto.ReservationDTO;
 import com.Project1.ParkingReservationSpot.entity.Reservation;
 import com.Project1.ParkingReservationSpot.repository.CustomerRepository;
 import com.Project1.ParkingReservationSpot.repository.ParkingSpotRepository;
 import com.Project1.ParkingReservationSpot.repository.ReservationRepository;
+import com.Project1.ParkingReservationSpot.services.CustomerService;
 import com.Project1.ParkingReservationSpot.services.ReservationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -21,21 +25,25 @@ public class ReservationServiceImplementation implements ReservationService {
     private final ReservationRepository reservationRepository;
     private final ParkingSpotRepository parkingSpotRepository;
     private final CustomerRepository customerRepository;
-
+    private final CustomerService customerService;
     @Override
     public ReservationDTO addNewReservation(AddReservationDTO addReservationDTO) {
 
-        if(!customerRepository.existsById(addReservationDTO.getCustomerId())|| !parkingSpotRepository.existsById(addReservationDTO.getParkingSpotId())){
-            throw new IllegalArgumentException("Customer and Parking Spot not found");
-        }
+        if(!parkingSpotRepository.existsById(addReservationDTO.getParkingSpotId()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Parking Spot not found");
+        if(!customerRepository.existsByPhoneNumber(addReservationDTO.getCustomerPhoneNumber()))
+            customerService.addNewCustomer(new AddCustomerDTO(addReservationDTO.getCustomerFirstName(),
+                    addReservationDTO.getCustomerLastName(), addReservationDTO.getCustomerEmail(),
+                    addReservationDTO.getCustomerPhoneNumber()));
         checkBooking(addReservationDTO);
         Reservation newReservation=new Reservation();
-        newReservation.setCustomer(customerRepository.findById(addReservationDTO.getCustomerId()).orElseThrow());
+        newReservation.setCustomer(customerRepository.findByPhoneNumber(addReservationDTO.getCustomerPhoneNumber()));
         newReservation.setParkingSpot(parkingSpotRepository.findById(addReservationDTO.getParkingSpotId()).orElseThrow());
 
         newReservation.setDate(addReservationDTO.getDate());
         newReservation.setStartTime(addReservationDTO.getStartTime());
         newReservation.setEndTime(addReservationDTO.getEndTime());
+
 
         reservationRepository.save(newReservation);
 

@@ -14,17 +14,17 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin/reservation")
+@RequestMapping("/reservation")
 public class ReservationController {
 
     private final ReservationService reservationService;
 
-    @PostMapping
+    @PostMapping("/public")
     public ResponseEntity<ReservationDTO> addReservation(@RequestBody @Valid AddReservationDTO addReservationDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.addNewReservation(addReservationDTO));
     }
 
-    @GetMapping("/{date}")
+    @GetMapping("public/{date}")
     public ResponseEntity<List<ReservationDTO>> getReservationsByDate(@PathVariable("date") LocalDate date){
         return ResponseEntity.ok().body(reservationService.findReservationByDate(date));
     }
