@@ -1,4 +1,6 @@
 package com.Project1.ParkingReservationSpot.dto;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,13 +19,14 @@ public class AddReservationDTO {
     private LocalTime startTime;
     @NotNull
     private LocalTime endTime;
-    @NotNull
+    @NotBlank
     private String customerFirstName;
-    @NotNull
+    @NotBlank
     private String customerLastName;
-    @NotNull
+    @NotBlank
+    @Email
     private String customerEmail;
-    @NotNull
+    @NotBlank
     private String customerPhoneNumber;
     @NotNull
     private Integer parkingSpotId;
